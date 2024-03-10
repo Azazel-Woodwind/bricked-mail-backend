@@ -1,7 +1,16 @@
 import connectDB from "./config/db";
 import server from "./server";
+import fs from "fs";
+import dotenv from "dotenv";
+dotenv.config();
 
-connectDB();
+import { fetchRecentEmails, authorize, EmailListener } from "./api/email.ts";
+
+const token = JSON.parse(
+    fs.readFileSync("./token.json", "utf-8")
+) as TokenObject;
+
+const auth = await authorize(token);
 
 console.log("Starting server");
 
